@@ -72,7 +72,11 @@ const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
         <List.Item style={{ marginRight: '20px' }}>
           <Card title={renderCardTitle(item, loggedIn, favs, favOnChange)}>
             <a href={item.url} target="_blank" rel="noopener noreferrer">
-              <img alt="Placeholder" src={processUrl(item.thumbnail_url)} />
+              <img
+                alt="Placeholder"
+                src={processUrl(item.thumbnail_url)}
+                style={{ width: '100%' }}
+              />
             </a>
           </Card>
         </List.Item>

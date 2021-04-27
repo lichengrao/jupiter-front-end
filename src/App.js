@@ -104,7 +104,7 @@ const App = () => {
   }, [loggedIn]);
 
   return (
-    <Layout>
+    <Layout style={{ height: '100vh', overflowY: 'hidden' }}>
       <Header>
         <Row justify="space-between">
           <Col>
@@ -150,7 +150,7 @@ const App = () => {
             defaultSelectedKeys={['Recommendation']}
           >
             <Menu.Item icon={<LikeOutlined />} key="Recommendation">
-              Recommend for you!
+              Recommended for you!
             </Menu.Item>
             <SubMenu
               icon={<FireOutlined />}
@@ -178,7 +178,12 @@ const App = () => {
         <Layout style={{ padding: '24px' }}>
           <Content
             className="site-layout-background"
-            style={{ padding: 24, margin: 0, height: 800, overflow: 'auto' }}
+            style={{
+              padding: 24,
+              margin: 0,
+              height: 1000,
+              overflow: 'auto',
+            }}
           >
             <Home
               resources={resources}
