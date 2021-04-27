@@ -130,7 +130,18 @@ const App = () => {
         </Row>
       </Header>
       <Layout>
-        <Sider width={300} className="site-layout-background">
+        <Sider
+          width={300}
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={(broken) => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
+          }}
+          className="site-layout-background"
+        >
           <CustomSearch onSuccess={customSearchOnSuccess} />
           <Menu
             mode="inline"
