@@ -100,7 +100,8 @@ const App = () => {
 
     onValidSession();
     fetchTopGames();
-  }, []);
+    onGameSelect({ key: 'Recommendation' });
+  }, [loggedIn]);
 
   return (
     <Layout>
@@ -135,6 +136,7 @@ const App = () => {
             mode="inline"
             onSelect={onGameSelect}
             style={{ marginTop: '10px' }}
+            defaultSelectedKeys={['Recommendation']}
           >
             <Menu.Item icon={<LikeOutlined />} key="Recommendation">
               Recommend for you!
