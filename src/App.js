@@ -100,6 +100,9 @@ const App = () => {
 
     onValidSession();
     fetchTopGames();
+  }, []);
+
+  useEffect(() => {
     onGameSelect({ key: 'Recommendation' });
   }, [loggedIn]);
 
