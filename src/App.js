@@ -126,13 +126,11 @@ const App = () => {
   );
 
   return (
-    <Layout
-      style={{ height: '100vh', overflowY: 'hidden', userSelect: 'none' }}
-    >
-      <Header style={{ background: '#010926' }}>
+    <Layout style={{ height: '100vh', overflow: 'hidden', userSelect: 'none' }}>
+      <Header style={{ background: '#18181b' }}>
         <Row justify="space-between">
           <Col>
-            <img src={logo} alt="logo" height="64px" />
+            <img src={logo} alt="logo" height="70%" />
           </Col>
           <Col>
             {loggedIn ? (
@@ -204,7 +202,15 @@ const App = () => {
                         .replace('{width}', '40')}
                       style={{ borderRadius: '50%', marginRight: '20px' }}
                     />
-                    <span>{game.name}</span>
+                    <span
+                      style={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {game.name}
+                    </span>
                   </Menu.Item>
                 );
               })}
