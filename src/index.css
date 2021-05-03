@@ -1,8 +1,6 @@
 @import '~antd/dist/antd.css';
 
 .site-top-game-list ul {
-  max-height: 80vh;
-  overflow-y: hidden;
   overflow-x: hidden;
 }
 

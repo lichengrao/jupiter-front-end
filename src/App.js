@@ -126,8 +126,14 @@ const App = () => {
   );
 
   return (
-    <Layout style={{ height: '100vh', overflow: 'hidden', userSelect: 'none' }}>
-      <Header style={{ background: '#18181b' }}>
+    <Layout style={{ height: '100vh', userSelect: 'none' }}>
+      <Header
+        style={{
+          background: '#18181b',
+          zIndex: '1000',
+          borderBottom: '2px solid black',
+        }}
+      >
         <Row justify="space-between">
           <Col>
             <img src={logo} alt="logo" height="60%" />
@@ -168,54 +174,61 @@ const App = () => {
             console.log(collapsed, type);
           }}
         >
-          <CustomSearch onSuccess={customSearchOnSuccess} />
-          <Menu
-            mode="inline"
-            onSelect={onGameSelect}
-            style={{ marginTop: '10px' }}
-            defaultSelectedKeys={['Recommendation']}
+          <CustomScrollbars
+            style={{ height: '100%' }}
+            autoHide
+            autoHideTimeout={500}
+            autoHideDuration={200}
           >
-            <Menu.Item icon={<LikeOutlined />} key="Recommendation">
-              Recommended for you!
-            </Menu.Item>
-            <SubMenu
-              icon={<FireOutlined />}
-              key="Popular Games"
-              title="Popular Games"
-              className="site-top-game-list"
+            <CustomSearch onSuccess={customSearchOnSuccess} />
+            <Menu
+              mode="inline"
+              onSelect={onGameSelect}
+              style={{ marginTop: '10px' }}
+              defaultSelectedKeys={['Recommendation']}
             >
-              {topGames.map((game) => {
-                return (
-                  <Menu.Item
-                    key={game.id}
-                    style={{
-                      height: '50px',
-                      margin: '6px 0px',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <img
-                      alt="Placeholder"
-                      src={game.box_art_url
-                        .replace('{height}', '40')
-                        .replace('{width}', '40')}
-                      style={{ borderRadius: '50%', marginRight: '20px' }}
-                    />
-                    <span
+              <Menu.Item icon={<LikeOutlined />} key="Recommendation">
+                Recommended for you!
+              </Menu.Item>
+              <SubMenu
+                icon={<FireOutlined />}
+                key="Popular Games"
+                title="Popular Games"
+                className="site-top-game-list"
+              >
+                {topGames.map((game) => {
+                  return (
+                    <Menu.Item
+                      key={game.id}
                       style={{
-                        width: '100%',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
+                        height: '50px',
+                        margin: '6px 0px',
+                        display: 'flex',
+                        alignItems: 'center',
                       }}
                     >
-                      {game.name}
-                    </span>
-                  </Menu.Item>
-                );
-              })}
-            </SubMenu>
-          </Menu>
+                      <img
+                        alt="Placeholder"
+                        src={game.box_art_url
+                          .replace('{height}', '40')
+                          .replace('{width}', '40')}
+                        style={{ borderRadius: '50%', marginRight: '20px' }}
+                      />
+                      <span
+                        style={{
+                          width: '100%',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {game.name}
+                      </span>
+                    </Menu.Item>
+                  );
+                })}
+              </SubMenu>
+            </Menu>
+          </CustomScrollbars>
         </Sider>
         <Layout style={{ padding: '15px', background: '#0e0e10' }}>
           <Content
