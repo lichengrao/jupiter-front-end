@@ -42,7 +42,26 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: 430,
+        }}
+      >
+        <Tooltip title={title}>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">
+            {title}
+          </a>
+        </Tooltip>
+      </div>
       {loggedIn && (
         <Tooltip
           title={isFav ? 'Remove from favorite list' : 'Add to favorite list'}
@@ -54,31 +73,30 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
           />
         </Tooltip>
       )}
-      <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', width: 450 }}>
-        <Tooltip title={title}>
-          <span>{title}</span>
-        </Tooltip>
-      </div>
-    </>
+    </div>
   );
 };
 
 const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
   return (
     <List
-      grid={{ xs: 1, sm: 2, md: 4, lg: 4, xl: 6 }}
+      grid={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 2 }}
       dataSource={data}
       renderItem={(item) => (
         <List.Item style={{ marginRight: '20px' }}>
-          <Card title={renderCardTitle(item, loggedIn, favs, favOnChange)}>
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              <img
-                alt="Placeholder"
-                src={processUrl(item.thumbnail_url)}
-                style={{ width: '100%' }}
-              />
-            </a>
-          </Card>
+          <Card
+            title={renderCardTitle(item, loggedIn, favs, favOnChange)}
+            bordered={false}
+            cover={
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                <img
+                  alt="Placeholder"
+                  src={processUrl(item.thumbnail_url)}
+                  style={{ width: '100%' }}
+                />
+              </a>
+            }
+          />
         </List.Item>
       )}
     />
