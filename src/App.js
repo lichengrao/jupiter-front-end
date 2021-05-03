@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './App.less';
 import { Button, Col, Layout, Menu, message, Row } from 'antd';
 import { CustomSearch, Favorites, Home, Login, Register } from './components';
 import {
