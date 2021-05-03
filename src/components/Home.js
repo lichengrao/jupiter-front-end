@@ -4,6 +4,8 @@ import { StarFilled, StarOutlined } from '@ant-design/icons';
 import { addFavoriteItem, deleteFavoriteItem } from '../utils';
 
 const { TabPane } = Tabs;
+const { Meta } = Card;
+
 const tabKeys = {
   Streams: 'stream',
   Videos: 'videos',
@@ -45,8 +47,10 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
     <div
       style={{
         width: '100%',
+        height: '60px',
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
       }}
     >
       <div
@@ -80,24 +84,28 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
 const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
   return (
     <List
-      grid={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 2 }}
+      grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 3, xxl: 4 }}
       dataSource={data}
       renderItem={(item) => (
         <List.Item style={{ marginRight: '20px' }}>
           <Card
-            style={{ paddingBottom: '40px' }}
-            title={renderCardTitle(item, loggedIn, favs, favOnChange)}
+            style={{ padding: '20px 0px' }}
             bordered={false}
             cover={
               <a href={item.url} target="_blank" rel="noopener noreferrer">
-                <img
-                  alt="Placeholder"
-                  src={processUrl(item.thumbnail_url)}
-                  style={{ width: '100%' }}
-                />
+                <div className="stream">
+                  <img
+                    className="stream__thumbnail"
+                    alt="Placeholder"
+                    src={processUrl(item.thumbnail_url)}
+                    style={{ width: '100%' }}
+                  />
+                </div>
               </a>
             }
-          />
+          >
+            <Meta title={renderCardTitle(item, loggedIn, favs, favOnChange)} />
+          </Card>
         </List.Item>
       )}
     />
@@ -117,7 +125,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
       <TabPane
         tab="Streams"
         key={tabKeys.Streams}
-        style={{ overflow: 'auto' }}
+        style={{ overflow: 'hidden' }}
         forceRender={true}
       >
         {renderCardGrid(STREAM, loggedIn, favStreams, favoriteOnChange)}
@@ -125,7 +133,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
       <TabPane
         tab="Videos"
         key={tabKeys.Videos}
-        style={{ overflow: 'auto' }}
+        style={{ overflow: 'hidden' }}
         forceRender={true}
       >
         {renderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
@@ -133,7 +141,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
       <TabPane
         tab="Clips"
         key={tabKeys.Clips}
-        style={{ overflow: 'auto' }}
+        style={{ overflow: 'hidden' }}
         forceRender={true}
       >
         {renderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}
