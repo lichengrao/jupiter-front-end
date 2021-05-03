@@ -130,7 +130,7 @@ const App = () => {
       <Header style={{ background: '#18181b' }}>
         <Row justify="space-between">
           <Col>
-            <img src={logo} alt="logo" height="70%" />
+            <img src={logo} alt="logo" height="60%" />
           </Col>
           <Col>
             {loggedIn ? (
