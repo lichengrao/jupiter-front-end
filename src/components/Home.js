@@ -53,7 +53,7 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
         style={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
-          maxWidth: 430,
+          maxWidth: 400,
         }}
       >
         <Tooltip title={title}>
@@ -85,6 +85,7 @@ const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
       renderItem={(item) => (
         <List.Item style={{ marginRight: '20px' }}>
           <Card
+            style={{ paddingBottom: '40px' }}
             title={renderCardTitle(item, loggedIn, favs, favOnChange)}
             bordered={false}
             cover={
@@ -124,7 +125,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
       <TabPane
         tab="Videos"
         key={tabKeys.Videos}
-        style={{ height: '1000px', overflow: 'auto' }}
+        style={{ overflow: 'auto' }}
         forceRender={true}
       >
         {renderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
@@ -132,7 +133,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
       <TabPane
         tab="Clips"
         key={tabKeys.Clips}
-        style={{ height: '1000px', overflow: 'auto' }}
+        style={{ overflow: 'auto' }}
         forceRender={true}
       >
         {renderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}

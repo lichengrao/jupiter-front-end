@@ -2,6 +2,6 @@
 
 .site-top-game-list ul {
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }

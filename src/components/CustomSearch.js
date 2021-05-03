@@ -27,7 +27,6 @@ const CustomSearch = ({ onSuccess }) => {
   return (
     <>
       <Button
-        shape="round"
         onClick={searchOnClick}
         icon={<SearchOutlined />}
         style={{ marginLeft: '20px', marginTop: '20px' }}

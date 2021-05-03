@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import logo from './logo.svg';
 import './App.less';
 import { Button, Col, Layout, Menu, message, Row } from 'antd';
 import { CustomSearch, Favorites, Home, Login, Register } from './components';
@@ -12,6 +13,7 @@ import {
 } from './utils';
 import { LikeOutlined, FireOutlined } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import Scrollbars from 'react-custom-scrollbars';
 
 const { Header, Content, Sider } = Layout;
 
@@ -107,23 +109,45 @@ const App = () => {
     onGameSelect({ key: 'Recommendation' });
   }, [loggedIn]);
 
+  const renderThumb = ({ style, ...props }) => {
+    const thumbStyle = {
+      borderRadius: 6,
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    };
+    return <div style={{ ...style, ...thumbStyle }} {...props} />;
+  };
+
+  const CustomScrollbars = (props) => (
+    <Scrollbars
+      renderThumbHorizontal={renderThumb}
+      renderThumbVertical={renderThumb}
+      {...props}
+    />
+  );
+
   return (
-    <Layout style={{ height: '100vh', overflowY: 'hidden' }}>
-      <Header>
+    <Layout
+      style={{ height: '100vh', overflowY: 'hidden', userSelect: 'none' }}
+    >
+      <Header style={{ background: '#010926' }}>
         <Row justify="space-between">
           <Col>
-            {loggedIn && (
-              <Favorites
-                data={favoriteItems}
-                favoriteOnChange={favoriteOnChange}
-              />
-            )}
+            <img src={logo} alt="logo" height="64px" />
           </Col>
           <Col>
             {loggedIn ? (
-              <Button shape="round" onClick={signoutOnClick}>
-                Logout
-              </Button>
+              <>
+                <Button
+                  onClick={signoutOnClick}
+                  style={{ marginRight: '20px' }}
+                >
+                  Logout
+                </Button>
+                <Favorites
+                  data={favoriteItems}
+                  favoriteOnChange={favoriteOnChange}
+                />
+              </>
             ) : (
               <>
                 <Login onSuccess={signinOnSuccess} />
@@ -135,6 +159,7 @@ const App = () => {
       </Header>
       <Layout>
         <Sider
+          style={{ background: '#1f1f23' }}
           width={300}
           breakpoint="lg"
           collapsedWidth="0"
@@ -144,7 +169,6 @@ const App = () => {
           onCollapse={(collapsed, type) => {
             console.log(collapsed, type);
           }}
-          className="site-layout-background"
         >
           <CustomSearch onSuccess={customSearchOnSuccess} />
           <Menu
@@ -164,7 +188,15 @@ const App = () => {
             >
               {topGames.map((game) => {
                 return (
-                  <Menu.Item key={game.id} style={{ height: '50px' }}>
+                  <Menu.Item
+                    key={game.id}
+                    style={{
+                      height: '50px',
+                      margin: '6px 0px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
                     <img
                       alt="Placeholder"
                       src={game.box_art_url
@@ -179,22 +211,27 @@ const App = () => {
             </SubMenu>
           </Menu>
         </Sider>
-        <Layout style={{ padding: '24px' }}>
+        <Layout style={{ padding: '15px', background: '#0e0e10' }}>
           <Content
-            className="site-layout-background"
             style={{
               padding: 24,
               margin: 0,
               height: 1000,
-              overflow: 'auto',
             }}
           >
-            <Home
-              resources={resources}
-              loggedIn={loggedIn}
-              favoriteItems={favoriteItems}
-              favoriteOnChange={favoriteOnChange}
-            />
+            <CustomScrollbars
+              style={{ height: '100%' }}
+              autoHide
+              autoHideTimeout={500}
+              autoHideDuration={200}
+            >
+              <Home
+                resources={resources}
+                loggedIn={loggedIn}
+                favoriteItems={favoriteItems}
+                favoriteOnChange={favoriteOnChange}
+              />
+            </CustomScrollbars>
           </Content>
         </Layout>
       </Layout>

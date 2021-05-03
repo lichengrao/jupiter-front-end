@@ -50,7 +50,6 @@ const renderItem = (item, favoriteOnChange) => {
           </a>
           <Tooltip title="Remove from favorite list">
             <Button
-              shape="round"
               icon={<DeleteFilled style={{ marginRight: '0px' }} />}
               onClick={unFavOnClick}
             />
@@ -76,12 +75,7 @@ const Favorites = ({ data, favoriteOnChange }) => {
 
   return (
     <>
-      <Button
-        type="primary"
-        shape="round"
-        onClick={onFavoriteClick}
-        icon={<StarFilled />}
-      >
+      <Button type="primary" onClick={onFavoriteClick} icon={<StarFilled />}>
         My Favorites
       </Button>
 
