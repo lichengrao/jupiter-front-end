@@ -136,7 +136,7 @@ const App = () => {
       >
         <Row justify="space-between">
           <Col>
-            <img src={logo} alt="logo" height="56%" />
+            <img src={logo} alt="logo" height="60px" />
           </Col>
           <Col>
             {loggedIn ? (
