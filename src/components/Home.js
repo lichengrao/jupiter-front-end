@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button, Card, List, message, Tabs, Tooltip } from 'antd';
-import { StarFilled, StarOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, List, message, Spin, Tabs, Tooltip } from 'antd';
+import { LoadingOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import { addFavoriteItem, deleteFavoriteItem } from '../utils';
 
 const { TabPane } = Tabs;
@@ -81,15 +81,33 @@ const renderCardTitle = (item, loggedIn, favs, favOnChange) => {
   );
 };
 
-const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
-  return (
+const RenderCardGrid = (data, loggedIn, favs, favOnChange) => {
+  const [imgsLoaded, setImgsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadItem = (item) => {
+      return new Promise((resolve) => {
+        const loadImg = new Image();
+        loadImg.src = processUrl(item.thumbnail_url);
+        loadImg.onload = () =>
+          setTimeout(() => resolve(item.thumbnail_url), 500);
+        loadImg.onerror = () =>
+          setTimeout(() => resolve(item.thumbnail_url), 2000);
+      });
+    };
+
+    Promise.all(data.map((item) => loadItem(item)))
+      .then(() => setImgsLoaded(true))
+      .catch((err) => console.log('Failed to load images', err));
+  }, [data]);
+
+  return imgsLoaded ? (
     <List
       grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 3, xxl: 4 }}
       dataSource={data}
       renderItem={(item) => (
-        <List.Item style={{ marginRight: '20px' }}>
+        <List.Item style={{ marginRight: '20px', padding: '20px 0px' }}>
           <Card
-            style={{ padding: '20px 0px' }}
             bordered={false}
             cover={
               <a href={item.url} target="_blank" rel="noopener noreferrer">
@@ -108,6 +126,16 @@ const renderCardGrid = (data, loggedIn, favs, favOnChange) => {
           </Card>
         </List.Item>
       )}
+    />
+  ) : (
+    <Spin
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+      indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
     />
   );
 };
@@ -128,7 +156,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
         style={{ overflow: 'hidden' }}
         forceRender={true}
       >
-        {renderCardGrid(STREAM, loggedIn, favStreams, favoriteOnChange)}
+        {RenderCardGrid(STREAM, loggedIn, favStreams, favoriteOnChange)}
       </TabPane>
       <TabPane
         tab="Videos"
@@ -136,7 +164,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
         style={{ overflow: 'hidden' }}
         forceRender={true}
       >
-        {renderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
+        {RenderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
       </TabPane>
       <TabPane
         tab="Clips"
@@ -144,7 +172,7 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
         style={{ overflow: 'hidden' }}
         forceRender={true}
       >
-        {renderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}
+        {RenderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}
       </TabPane>
     </Tabs>
   );
