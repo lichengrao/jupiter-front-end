@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.less';
-import { Button, Col, Layout, Menu, message, Row } from 'antd';
-import { CustomSearch, Favorites, Home, Login, Register } from './components';
+import logo from 'logo.svg';
+import 'App.less';
+import { Button, Col, Layout, message, Row } from 'antd';
+import { Favorites, Home, Login, Register } from 'components';
 import {
   checkValidSession,
   getFavoriteItem,
   getRecommendations,
-  getTopGames,
   logout,
   searchGameById,
-} from './utils';
-import { LikeOutlined, FireOutlined } from '@ant-design/icons';
-import SubMenu from 'antd/lib/menu/SubMenu';
+} from 'utils';
 import Scrollbars from 'react-custom-scrollbars';
+import { SideMenu } from 'components';
 
 const { Header, Content, Sider } = Layout;
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [topGames, setTopGames] = useState([]);
   const [resources, setResources] = useState({
     VIDEO: [],
     STREAM: [],
@@ -38,21 +35,6 @@ const App = () => {
     } catch (err) {
       message.error(err.message);
     }
-  };
-
-  const onGameSelect = async ({ key }) => {
-    if (key === 'Recommendation') {
-      const response = await getRecommendations();
-      setResources(response);
-      return;
-    }
-
-    const response = await searchGameById(key);
-    setResources(response);
-  };
-
-  const customSearchOnSuccess = (data) => {
-    setResources(data);
   };
 
   const signinOnSuccess = async () => {
@@ -75,34 +57,35 @@ const App = () => {
     }
   };
 
-  const onValidSession = async () => {
-    try {
-      const loginResponse = await checkValidSession();
-      if (loginResponse) {
-        const favoriteResponse = await getFavoriteItem();
-        setFavoriteItems(favoriteResponse);
-        setLoggedIn(true);
-        message.success(`Welcome back ${loginResponse.user_id}`);
-      } else {
-        setLoggedIn(false);
-      }
-    } catch (err) {
-      message.error(err.message);
+  const onGameSelect = async ({ key }) => {
+    if (key === 'Recommendation') {
+      const response = await getRecommendations();
+      setResources(response);
+      return;
     }
+
+    const response = await searchGameById(key);
+    setResources(response);
   };
 
+  // Check to see if there is a valid session in cookie, if yes, log the user in
   useEffect(() => {
-    const fetchTopGames = async () => {
+    const onValidSession = async () => {
       try {
-        const response = await getTopGames();
-        setTopGames(response);
+        const loginResponse = await checkValidSession();
+        if (loginResponse) {
+          const favoriteResponse = await getFavoriteItem();
+          setFavoriteItems(favoriteResponse);
+          setLoggedIn(true);
+          message.success(`Welcome back ${loginResponse.user_id}`);
+        } else {
+          setLoggedIn(false);
+        }
       } catch (err) {
-        message.err(err.message);
+        message.error(err.message);
       }
     };
-
     onValidSession();
-    fetchTopGames();
   }, []);
 
   useEffect(() => {
@@ -174,61 +157,12 @@ const App = () => {
             console.log(collapsed, type);
           }}
         >
-          <CustomScrollbars
-            style={{ height: '100%' }}
-            autoHide
-            autoHideTimeout={500}
-            autoHideDuration={200}
-          >
-            <CustomSearch onSuccess={customSearchOnSuccess} />
-            <Menu
-              mode="inline"
-              onSelect={onGameSelect}
-              style={{ marginTop: '10px' }}
-              defaultSelectedKeys={['Recommendation']}
-            >
-              <Menu.Item icon={<LikeOutlined />} key="Recommendation">
-                Recommended for you!
-              </Menu.Item>
-              <SubMenu
-                icon={<FireOutlined />}
-                key="Popular Games"
-                title="Popular Games"
-                className="site-top-game-list"
-              >
-                {topGames.map((game) => {
-                  return (
-                    <Menu.Item
-                      key={game.id}
-                      style={{
-                        height: '50px',
-                        margin: '6px 0px',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <img
-                        alt="Placeholder"
-                        src={game.box_art_url
-                          .replace('{height}', '40')
-                          .replace('{width}', '40')}
-                        style={{ borderRadius: '50%', marginRight: '20px' }}
-                      />
-                      <span
-                        style={{
-                          width: '100%',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {game.name}
-                      </span>
-                    </Menu.Item>
-                  );
-                })}
-              </SubMenu>
-            </Menu>
-          </CustomScrollbars>
+          <SideMenu
+            setResources={setResources}
+            onGameSelect={onGameSelect}
+            CustomScrollbars={CustomScrollbars}
+          />
+          {/* </CustomScrollbars> */}
         </Sider>
         <Layout style={{ padding: '15px', background: '#0e0e10' }}>
           <Content
