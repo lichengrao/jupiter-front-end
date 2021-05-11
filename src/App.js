@@ -172,19 +172,13 @@ const App = () => {
               height: 1000,
             }}
           >
-            <CustomScrollbars
-              style={{ height: '100%' }}
-              autoHide
-              autoHideTimeout={500}
-              autoHideDuration={200}
-            >
-              <Home
-                resources={resources}
-                loggedIn={loggedIn}
-                favoriteItems={favoriteItems}
-                favoriteOnChange={favoriteOnChange}
-              />
-            </CustomScrollbars>
+            <Home
+              resources={resources}
+              loggedIn={loggedIn}
+              favoriteItems={favoriteItems}
+              favoriteOnChange={favoriteOnChange}
+              CustomScrollbars={CustomScrollbars}
+            />
           </Content>
         </Layout>
       </Layout>

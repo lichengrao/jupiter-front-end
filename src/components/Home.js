@@ -85,6 +85,7 @@ const RenderCardGrid = (data, loggedIn, favs, favOnChange) => {
   const [imgsLoaded, setImgsLoaded] = useState(false);
 
   useEffect(() => {
+    setImgsLoaded(false);
     const loadItem = (item) => {
       return new Promise((resolve) => {
         const loadImg = new Image();
@@ -140,7 +141,13 @@ const RenderCardGrid = (data, loggedIn, favs, favOnChange) => {
   );
 };
 
-const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
+const Home = ({
+  resources,
+  loggedIn,
+  favoriteItems,
+  favoriteOnChange,
+  CustomScrollbars,
+}) => {
   const { VIDEO, STREAM, CLIP } = resources;
   const {
     VIDEO: favVideos,
@@ -149,32 +156,39 @@ const Home = ({ resources, loggedIn, favoriteItems, favoriteOnChange }) => {
   } = favoriteItems;
 
   return (
-    <Tabs defaultActiveKey={tabKeys.Streams}>
-      <TabPane
-        tab="Streams"
-        key={tabKeys.Streams}
-        style={{ overflow: 'hidden' }}
-        forceRender={true}
-      >
-        {RenderCardGrid(STREAM, loggedIn, favStreams, favoriteOnChange)}
-      </TabPane>
-      <TabPane
-        tab="Videos"
-        key={tabKeys.Videos}
-        style={{ overflow: 'hidden' }}
-        forceRender={true}
-      >
-        {RenderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
-      </TabPane>
-      <TabPane
-        tab="Clips"
-        key={tabKeys.Clips}
-        style={{ overflow: 'hidden' }}
-        forceRender={true}
-      >
-        {RenderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}
-      </TabPane>
-    </Tabs>
+    <CustomScrollbars
+      style={{ height: '100%' }}
+      autoHide
+      autoHideTimeout={500}
+      autoHideDuration={200}
+    >
+      <Tabs defaultActiveKey={tabKeys.Streams}>
+        <TabPane
+          tab="Streams"
+          key={tabKeys.Streams}
+          style={{ overflow: 'hidden' }}
+          forceRender={true}
+        >
+          {RenderCardGrid(STREAM, loggedIn, favStreams, favoriteOnChange)}
+        </TabPane>
+        <TabPane
+          tab="Videos"
+          key={tabKeys.Videos}
+          style={{ overflow: 'hidden' }}
+          forceRender={true}
+        >
+          {RenderCardGrid(VIDEO, loggedIn, favVideos, favoriteOnChange)}
+        </TabPane>
+        <TabPane
+          tab="Clips"
+          key={tabKeys.Clips}
+          style={{ overflow: 'hidden' }}
+          forceRender={true}
+        >
+          {RenderCardGrid(CLIP, loggedIn, favClips, favoriteOnChange)}
+        </TabPane>
+      </Tabs>
+    </CustomScrollbars>
   );
 };
 
