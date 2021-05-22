@@ -19,7 +19,7 @@ const SideMenu = ({ setResources, onGameSelect, CustomScrollbars }) => {
         const response = await getTopGames();
         setTopGames(response);
       } catch (err) {
-        message.err(err.message);
+        message.error(err.message);
       }
     };
 
